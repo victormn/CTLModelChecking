@@ -3,7 +3,7 @@ Trabalho 1 da disciplina SSC0722 - Métodos e Técnicas para Análise e Projeto 
 
 Alunos:
 
-	 Zaghi de Oliveira - 7987400
+	Cassiano Zaghi de Oliveira - 7987400
 
 	Elisa Jorge Marcatto - 7961965
 
