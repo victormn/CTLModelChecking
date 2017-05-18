@@ -4,19 +4,31 @@
 
 using namespace std;
 
+/***
+	Struct of the tree's nodes
+***/
 typedef struct treeNode_s {
 	string id;
 	string content;
+	strint operation;
 	struct treeNode_s *left;
 	struct treeNode_s *right;
 } treeNode_t;
 
+/***
+	Struct of the state machine's nodes
+***/
 typedef struct graphNode_s {
 	int id;
 	vector<string> proprieties;
+	vector<string> nodes;
 	vector<int> next;
 } graphNode_t;
 
+/*** 
+	Function to read the input
+	output: the state machine
+***/
 vector<graphNode_t> readInput() {
 
 	graphNode_t g;
@@ -52,6 +64,10 @@ vector<graphNode_t> readInput() {
 	return v;
 }
 
+/***
+	Function to print the state machine
+	input: state machine
+***/
 void printGraph (vector<graphNode_t> &graph) {
 
 	for (int i = 0; i < (int)graph.size(); ++i) {
