@@ -20,7 +20,7 @@ typedef struct treeNode_s {
 ***/
 typedef struct graphNode_s {
 	int id;
-	vector<string> proprieties;
+	vector<string> properties;
 	vector<string> nodes;
 	vector<int> next;
 } graphNode_t;
