@@ -106,3 +106,77 @@ void opNot (vector<graphNode_t> &graph, string a, string value) {
 		}
 	}
 }
+
+/*** Function to add a property of EX(a) on the graph
+	input: graph, a and the property EX(a)
+
+	Search for nodes that have a next node with the property a 
+		and insert the property value on these nodes
+***/
+void opEX (vector<graphNode_t> &graph, string a, string value) {
+
+	bool hasA;
+	for (int i = 0; i < (int)graph.size(); ++i) {
+		hasA = false;
+		for (int j = 0; j < (int)graph[i].next.size(); ++j) {
+			for (int k = 0; j < (int)graph[i].next[j].nodes.size(); ++k) {
+				if (graph[i].next[j].nodes[k] == a) {
+					g[i].nodes.push_back(value);
+					hasA = true;
+					break;
+				}
+			}
+
+			if (hasA) {
+				break;
+			}
+		}
+	}
+}
+
+/***
+	Function to add a property of EU(a, b) oh the graph
+	input: graph, a, b and the property EU(a, b)
+
+	Search for nodes that has the property b 
+		and insert the property value on these nodes
+
+	Then search for nodes that have a next node with the property value
+		and insert the property value on these nodes recursively
+***/
+void opEU(vector<graphNode_t> &graph, string a, string b, string value) {
+
+	for (int i = 0; i < (int)graph.size(); ++i) {
+		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
+			if (graph[i].nodes[j] == b) {
+				graph[i].nodes.push_back(value);
+				break;
+			}
+		}
+	}
+
+	bool hasChanged = true;
+	bool hasProp;
+	while (hasChanged) {
+		hasChanged = false;
+		for (int i = 0; i < (int)graph.size(); ++i) {
+			hasProp = false;
+			if (g[i].nodes[g[i].nodes.size() - 1] != value) {
+				for (int j = 0; j < (int)graph[i].next.size(); ++j) {
+					for (int k = 0; k < (int)graph[i].next[j].nodes.size(); ++k) {
+						if (graph[i].next[j].nodes[k] == value) {
+							g[i].nodes.push_back(value);
+							hasChanged = true;
+							hasProp = true;
+							break;
+						}
+					}
+
+					if (hasProp) {
+						break;
+					}
+				}
+			}
+		}
+	}
+}
