@@ -46,23 +46,63 @@ void opAdd (vector<graphNode_t> graph, string value) {
 ***/
 void opAnd (vector<graphNode_t> &graph, string a, string b, string value) {
 
-	bool hasA = false;
-	bool hasB = false;
+	bool hasA;
+	bool hasB;
 	
 	for (int i = 0; i < (int)graph.size(); ++i) {
-		for (int j = 0; j < (int)graph[i].properties.size(); ++j) {
-			if (graph[i].properties[j] == a) {
+		hasA = false;
+		hasB = false;
+		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
+			if (graph[i].nodes[j] == a) {
 				hasA = true;
 			}
 			
-			if (graph[i].properties[j] == b) {
+			if (graph[i].nodes[j] == b) {
 				hasB = true;
 			}
 
 			if (hasA && hasB) {
 				graph[i].nodes.push_back(value);
-				return;
+				break;
 			}
+		}
+	}
+}
+
+/***
+	Function to add a property of a | b on the graph
+	input: graph, a, b and the property (a | b)
+***/
+void opOr (vector<graphNode_t> &graph, string a, string b, string value) {
+
+	for (int i = 0; i < (int)graph.size(); ++i) {
+		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
+			if (graph[i].nodes[j] == a || graph[i].nodes[j] == b) {
+				graph[i].nodes.push_back(value);
+				break;
+			}
+		}
+	}
+}
+
+/***
+	Function to add a property of !a on the graph
+	input: graph, a and the property !a
+***/
+void opNot (vector<graphNode_t> &graph, string a, string value) {
+
+	bool hasA;
+	for (int i = 0; i < (int)graph.size(); ++i) {
+		hasA = false;
+		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
+			if (graph[i].nodes[j] == a) {
+				hasA = true;
+				break;
+			}
+		}
+
+		if (!hasA) {
+			graph[i].nodes.push_back(value);
 		}
 	}
 }
