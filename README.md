@@ -9,3 +9,14 @@ Alunos:
 
 	Victor Marcelino Nunes - 8622381
 
+Para compilar:
+	
+	make
+
+Para executar (sendo "path" o caminho do arquivo de entrada):
+	
+	make run IN="path"
+
+Para limpar executáveis e objetos:
+	
+	make clean
