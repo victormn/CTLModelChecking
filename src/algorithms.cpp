@@ -1,35 +1,8 @@
-#include <iostream>
-#include <string>
-#include <vector>
-
-using namespace std;
-
-/***
-	Struct of the tree's nodes
-***/
-typedef struct treeNode_s {
-	string id;
-	string content;
-	strint operation;
-	struct treeNode_s *left;
-	struct treeNode_s *right;
-} treeNode_t;
-
-/***
-	Struct of the state machine's nodes
-***/
-typedef struct graphNode_s {
-	int id;
-	vector<string> properties;
-	vector<string> nodes;
-	vector<int> next;
-} graphNode_t;
-
 /***
 	Function to add a property from the tree on the graph
 	input: graph and the property
 ***/
-void opAdd (vector<graphNode_t> graph, string value) {
+void opAdd (vector<graphNode_t> &graph, string value) {
 
 	for (int i = 0; i < (int)graph.size(); ++i) {
 		for (int j = 0; j < (int)graph[i].properties.size(); ++j) {
@@ -119,19 +92,34 @@ void opEX (vector<graphNode_t> &graph, string a, string value) {
 	for (int i = 0; i < (int)graph.size(); ++i) {
 		hasA = false;
 		for (int j = 0; j < (int)graph[i].next.size(); ++j) {
-			for (int k = 0; j < (int)graph[i].next[j].nodes.size(); ++k) {
-				if (graph[i].next[j].nodes[k] == a) {
-					g[i].nodes.push_back(value);
+			for (int k = 0; k < (int)graph[graph[i].next[j]].nodes.size(); ++k) {
+				if (graph[graph[i].next[j]].nodes[k] == a) {
+					graph[i].nodes.push_back(value);
 					hasA = true;
 					break;
 				}
 			}
-
 			if (hasA) {
 				break;
 			}
 		}
 	}
+}
+
+
+/***
+	Function to verify if a graphNode_t has a property a
+	input: graphNode_t and the property a
+	output: a boolean that represents if the node has the property
+***/
+bool hasProp (graphNode_t &node, string a) {
+
+	for (int i = 0; i < (int)node.nodes.size(); ++i) {
+		if (node.nodes[i] == a) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /***
@@ -155,24 +143,26 @@ void opEU(vector<graphNode_t> &graph, string a, string b, string value) {
 		}
 	}
 
+
 	bool hasChanged = true;
-	bool hasProp;
+	bool alreadyHasValue;
 	while (hasChanged) {
 		hasChanged = false;
 		for (int i = 0; i < (int)graph.size(); ++i) {
-			hasProp = false;
-			if (g[i].nodes[g[i].nodes.size() - 1] != value) {
+			alreadyHasValue = false;
+			// Verify if the node has the property a and if it don't the property value yet
+			if (hasProp(graph[i], a) && graph[i].nodes.size() != 0 && graph[i].nodes[graph[i].nodes.size() - 1] != value) {
 				for (int j = 0; j < (int)graph[i].next.size(); ++j) {
-					for (int k = 0; k < (int)graph[i].next[j].nodes.size(); ++k) {
-						if (graph[i].next[j].nodes[k] == value) {
-							g[i].nodes.push_back(value);
+					for (int k = 0; k < (int)graph[graph[i].next[j]].nodes.size(); ++k) {
+						if (graph[graph[i].next[j]].nodes[k] == value) {
+							graph[i].nodes.push_back(value);
 							hasChanged = true;
-							hasProp = true;
+							alreadyHasValue = true;
 							break;
 						}
 					}
 
-					if (hasProp) {
+					if (alreadyHasValue) {
 						break;
 					}
 				}

@@ -10,7 +10,7 @@ using namespace std;
 typedef struct treeNode_s {
 	string id;
 	string content;
-	strint operation;
+	string operation;
 	struct treeNode_s *left;
 	struct treeNode_s *right;
 } treeNode_t;
@@ -40,6 +40,7 @@ vector<graphNode_t> readInput() {
 	graphNode_t node;
 
 	cin >> N;
+	v.resize(N);
 
 	while(N--) {
 		cin >> g.id;
@@ -47,17 +48,17 @@ vector<graphNode_t> readInput() {
 
 		while(quant--) {
 			cin >> prop;
-			g.proprieties.push_back(prop);
+			g.properties.push_back(prop);
 		}
 		cin >> quant;
 
 		while (quant--) {
 			cin >> state;
-			g.next.push_back(state);
+			g.next.push_back(state - 1);
 		}
-		v.push_back(g);
+		v[g.id - 1] = g;
 
-		g.proprieties.clear();
+		g.properties.clear();
 		g.next.clear();
 	}
 
@@ -71,22 +72,28 @@ vector<graphNode_t> readInput() {
 void printGraph (vector<graphNode_t> &graph) {
 
 	for (int i = 0; i < (int)graph.size(); ++i) {
-		cout << graph[i].id << '\n';
+		cout << graph[i].id - 1 << '\n';
 
-		cout << "Proprieties: \n";
-		for (int j = 0; j < (int)graph[i].proprieties.size(); ++j) {
-			cout << graph[i].proprieties[j] << " ";
+		cout << "Properties: \n";
+		for (int j = 0; j < (int)graph[i].properties.size(); ++j) {
+			cout << graph[i].properties[j] << " ";
 		}
 		cout << "\n";
 
 		cout << "States: \n";
 		for (int j = 0; j < (int)graph[i].next.size(); ++j) {
 			cout << graph[i].next[j] << " ";
-
 		}
-		cout << "\n\n\n";
+		cout << "\n";
+
+		cout << "Nodes: \n";
+		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
+			cout << graph[i].nodes[j] << " ";
+		}
+		cout << "\n\n";
 	}
 }
+
 
 int main(int argc, char const *argv[]) {
 
@@ -94,8 +101,20 @@ int main(int argc, char const *argv[]) {
 
 	graph = readInput();
 
-	printGraph(graph);
+	//printGraph(graph);
 
+	opAdd(graph, "S");
+	opAdd(graph, "C");
+	opAdd(graph, "H");
+	opAdd(graph, "E");
+	//opAnd(graph, "S", "E", "(S & E)");
+	//opOr(graph, "S", "E", "(S | E)");
+	//opNot(graph, "S", "(!S)");
+	//opNot(graph, "(S & E)", "(!(S & E))");
+	//opEX(graph, "S", "(EX(S))");
+	//opEU(graph, "C", "H", "EU(C, H)");
+	opEU(graph, "E", "S", "EU(E, S)");
+	printGraph(graph);
 
 	return 0;
 }
