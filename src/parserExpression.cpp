@@ -147,6 +147,14 @@ string if2and(string left, string right){
 	return result;
 }
 
+string removeParenthesisInLeaf(string leaf){
+	string result = "";
+	for(int i = 1; i < (int)leaf.length()-1; ++i){
+		result += leaf[i];
+	}
+	return result;
+}
+
 treeNode_t* parserCtlExpression(string expression) {
 
 	string left, right;
@@ -155,7 +163,7 @@ treeNode_t* parserCtlExpression(string expression) {
 
 	int posFunc = findFunction(expression);
 	if (posFunc == -1){
-		node->content = expression;
+		node->content = removeParenthesisInLeaf(expression);
 		node->type = "prop";
 		node->op = "add";
 		node->left = NULL;
