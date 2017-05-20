@@ -1,23 +1,7 @@
-#include <iostream>
-#include <string>
-#include <cstdlib>
-
 #include <parserExpression.h>
+#include <cstdio>
 
 using namespace std;
-
-bool isLogicalOperator(char c){
-	if(
-		c == '&' ||
-		c == '|' ||
-		c == '!' ||
-		c == ',' ||
-		c == '<' ||
-		c == '-'
-	) return true;
-
-	return false;
-}
 
 string getProp(string expression, int pos) {
 	string result = "(";
@@ -32,40 +16,20 @@ string getProp(string expression, int pos) {
 
 string getFunction(string expression, int pos){
 	string result = "";
-	if(isLogicalOperator(expression[pos])){
+	while(expression[pos] != '('){
 		result += expression[pos];
-		if(expression[pos] == '-') {
-			result += expression[++pos];
-		}
-		else if(expression[pos] == '<') {
-			result += expression[++pos];
-			result += expression[++pos];
-		}
-	} else {
-		result += expression[pos];
-		result += expression[++pos];
+		pos++;
 	}
 	return result;
 }
 
 bool isFunction(string expression, int pos) {
-	if(isLogicalOperator(expression[pos]))
-		return true;
-
-	if(expression[pos] != 'A' && expression[pos] != 'E')
-		return false;
-
-	switch(expression[++pos]){
-		case 'X':
-		case 'F':
-		case 'G':
-		case 'U':
-			if(expression[++pos] == '(')
-				return true;
-			else return false;
-		default:
+	while(expression[pos] != '('){
+		if (expression[pos] == ')') 
 			return false;
+		pos++;
 	}
+	return true;
 }
 
 int findFunction(string expression){
@@ -150,11 +114,10 @@ string removeParenthesisInLeaf(string leaf){
 }
 
 treeNode_t* parserCtlExpression(string expression) {
-
 	string left, right;
 
-	treeNode_t *node = (treeNode_t*) malloc (sizeof(treeNode_t));
-
+	treeNode_t *node = new treeNode_t();
+	
 	int posFunc = findFunction(expression);
 	if (posFunc == -1){
 		node->content = removeParenthesisInLeaf(expression);
@@ -245,7 +208,7 @@ treeNode_t* parserCtlExpression(string expression) {
 		left = getProp(expression, posFunc);
 
 		node->content = expression;
-		node->type = "function";
+		node->type = "function";	
 		node->op = function;
 		node->left = parserCtlExpression(left);
 		node->right = NULL;
@@ -293,5 +256,10 @@ treeNode_t* parserCtlExpression(string expression) {
 		node->left = parserCtlExpression(left);
 		node->right = NULL;
 	}
+	else {
+		cout << "Invalid function: " << function << "\n";
+		return NULL;
+	}
+
 	return node;
 }
