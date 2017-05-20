@@ -37,6 +37,11 @@ vector<graphNode_t> readInput() {
 
 	while(N--) {
 		cin >> g.id;
+
+		if (g.id >= v.size()) {
+			cout << "Malformed state machine!\n";
+			exit(-1);
+		}
 		cin >> quant;
 
 		while(quant--) {
@@ -47,8 +52,15 @@ vector<graphNode_t> readInput() {
 
 		while (quant--) {
 			cin >> state;
+
+			if (state >= v.size()) {
+				cout << "Malformed state machine!\n";
+				exit(-1);
+			}
+
 			g.next.push_back(state - 1);
 		}
+		
 		v[g.id - 1] = g;
 
 		g.properties.clear();
