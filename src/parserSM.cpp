@@ -4,18 +4,9 @@
 #include <map>
 #include <cstdio>
 
-using namespace std;
+#include <parserSM.h>
 
-/***
-	Struct of the tree's nodes
-***/
-typedef struct treeNode_s {
-	string id;
-	string content;
-	string operation;
-	struct treeNode_s *left;
-	struct treeNode_s *right;
-} treeNode_t;
+using namespace std;
 
 /***
 	Struct of the state machine's nodes

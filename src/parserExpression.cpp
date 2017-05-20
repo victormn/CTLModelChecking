@@ -2,15 +2,9 @@
 #include <string>
 #include <cstdlib>
 
-using namespace std;
+#include <parserExpression.h>
 
-typedef struct treeNode_s {
-	string content;
-	string type;
-	string op;
-	struct treeNode_s *left;
-	struct treeNode_s *right;
-} treeNode_t;
+using namespace std;
 
 bool isLogicalOperator(char c){
 	if(
@@ -299,24 +293,5 @@ treeNode_t* parserCtlExpression(string expression) {
 		node->left = parserCtlExpression(left);
 		node->right = NULL;
 	}
-
 	return node;
-
-}
-
-// Just for debug
-void printTree(treeNode_t *node){
-	if(node == NULL) return;
-	cout << node->content << " " << node->op << "\n";
-	printTree(node->left);
-	printTree(node->right);
-}
-
-int main(){
-
-	treeNode_t *node = (treeNode_t*) malloc (sizeof(treeNode_t));
-	node = parserCtlExpression("(AX(!(((a)|(b))&((c)&(d)))))");
-	printTree(node);
-
-	return 0;
 }

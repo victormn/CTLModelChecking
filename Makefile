@@ -1,9 +1,13 @@
 CFLAGS= -I lib/
-PROJECTNAME= parserExpression.cpp
+PROJECTNAME= ctlModelChecking.cpp
 
-all:
-	mkdir obj bin
-	g++ ./src/$(PROJECTNAME) $(CFLAGS) -o ./bin/modelchecking
+all: classes
+	mkdir -p obj bin
+	g++ ./src/$(PROJECTNAME) $(CFLAGS) -o ./bin/modelchecking ./obj/parserExpression.o ./obj/parserSM.o -Wall
+
+classes:
+	@g++ -c ./src/parserExpression.cpp $(CFLAGS) -o ./obj/parserExpression.o
+	@g++ -c ./src/parserSM.cpp $(CFLAGS) -o ./obj/parserSM.o
 
 clean:
 	rm -f ./obj/* ./bin/*
