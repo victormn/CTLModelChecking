@@ -5,10 +5,8 @@
 void opAdd (vector<graphNode_t> &graph, string value) {
 
 	for (int i = 0; i < (int)graph.size(); ++i) {
-		for (int j = 0; j < (int)graph[i].properties.size(); ++j) {
-			if(graph[i].properties[j] == value) {
-				graph[i].nodes.push_back(value);
-			}
+		if(graph[i].properties.count(value)) {
+			graph[i].nodes[value] = true;
 		}
 	}
 }
@@ -18,26 +16,10 @@ void opAdd (vector<graphNode_t> &graph, string value) {
 	input: graph, a, b, and the property (a & b)
 ***/
 void opAnd (vector<graphNode_t> &graph, string a, string b, string value) {
-
-	bool hasA;
-	bool hasB;
 	
 	for (int i = 0; i < (int)graph.size(); ++i) {
-		hasA = false;
-		hasB = false;
-		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
-			if (graph[i].nodes[j] == a) {
-				hasA = true;
-			}
-			
-			if (graph[i].nodes[j] == b) {
-				hasB = true;
-			}
-
-			if (hasA && hasB) {
-				graph[i].nodes.push_back(value);
-				break;
-			}
+		if (graph[i].nodes.count(a) && graph[i].nodes.count(b)) {
+			graph[i].nodes[value] = true;
 		}
 	}
 }
@@ -50,8 +32,8 @@ void opOr (vector<graphNode_t> &graph, string a, string b, string value) {
 
 	for (int i = 0; i < (int)graph.size(); ++i) {
 		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
-			if (graph[i].nodes[j] == a || graph[i].nodes[j] == b) {
-				graph[i].nodes.push_back(value);
+			if (graph[i].nodes.count(a) || graph[i].nodes.count(b)) {
+				graph[i].nodes[value] = true;
 				break;
 			}
 		}
@@ -64,18 +46,9 @@ void opOr (vector<graphNode_t> &graph, string a, string b, string value) {
 ***/
 void opNot (vector<graphNode_t> &graph, string a, string value) {
 
-	bool hasA;
 	for (int i = 0; i < (int)graph.size(); ++i) {
-		hasA = false;
-		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
-			if (graph[i].nodes[j] == a) {
-				hasA = true;
-				break;
-			}
-		}
-
-		if (!hasA) {
-			graph[i].nodes.push_back(value);
+		if (graph[i].nodes.count(a) == 0) {
+			graph[i].nodes[value] = true;
 		}
 	}
 }
@@ -88,38 +61,16 @@ void opNot (vector<graphNode_t> &graph, string a, string value) {
 ***/
 void opEX (vector<graphNode_t> &graph, string a, string value) {
 
-	bool hasA;
 	for (int i = 0; i < (int)graph.size(); ++i) {
-		hasA = false;
-		for (int j = 0; j < (int)graph[i].next.size(); ++j) {
-			for (int k = 0; k < (int)graph[graph[i].next[j]].nodes.size(); ++k) {
-				if (graph[graph[i].next[j]].nodes[k] == a) {
-					graph[i].nodes.push_back(value);
-					hasA = true;
+		if (graph[i].nodes.count(value) == 0) {
+			for (int j = 0; j < (int)graph[i].next.size(); ++j) {
+				if (graph[graph[i].next[j]].nodes.count(a)) {
+					graph[i].nodes[value] = true;
 					break;
 				}
 			}
-			if (hasA) {
-				break;
-			}
 		}
 	}
-}
-
-
-/***
-	Function to verify if a graphNode_t has a property a
-	input: graphNode_t and the property a
-	output: a boolean that represents if the node has the property
-***/
-bool hasProp (graphNode_t &node, string a) {
-
-	for (int i = 0; i < (int)node.nodes.size(); ++i) {
-		if (node.nodes[i] == a) {
-			return true;
-		}
-	}
-	return false;
 }
 
 /***
@@ -129,42 +80,69 @@ bool hasProp (graphNode_t &node, string a) {
 	Search for nodes that has the property b 
 		and insert the property value on these nodes
 
-	Then search for nodes that have a next node with the property value
-		and insert the property value on these nodes recursively
+	Then search for nodes that have the property a and a next node with the property value
+		and insert the property value on these nodes, recursively
 ***/
-void opEU(vector<graphNode_t> &graph, string a, string b, string value) {
+void opEU (vector<graphNode_t> &graph, string a, string b, string value) {
 
 	for (int i = 0; i < (int)graph.size(); ++i) {
-		for (int j = 0; j < (int)graph[i].nodes.size(); ++j) {
-			if (graph[i].nodes[j] == b) {
-				graph[i].nodes.push_back(value);
-				break;
-			}
+		if (graph[i].nodes.count(b)) {
+			graph[i].nodes[value] = true;
 		}
 	}
 
-
 	bool hasChanged = true;
-	bool alreadyHasValue;
 	while (hasChanged) {
 		hasChanged = false;
 		for (int i = 0; i < (int)graph.size(); ++i) {
-			alreadyHasValue = false;
-			// Verify if the node has the property a and if it don't the property value yet
-			if (hasProp(graph[i], a) && graph[i].nodes.size() != 0 && graph[i].nodes[graph[i].nodes.size() - 1] != value) {
+			if (graph[i].nodes.count(a) && !graph[i].nodes.count(value)) {
 				for (int j = 0; j < (int)graph[i].next.size(); ++j) {
-					for (int k = 0; k < (int)graph[graph[i].next[j]].nodes.size(); ++k) {
-						if (graph[graph[i].next[j]].nodes[k] == value) {
-							graph[i].nodes.push_back(value);
-							hasChanged = true;
-							alreadyHasValue = true;
-							break;
-						}
-					}
-
-					if (alreadyHasValue) {
+					if (graph[graph[i].next[j]].nodes.count(value)) {
+						graph[i].nodes[value] = true;
+						hasChanged = true;
 						break;
 					}
+				}
+			}
+		}
+	}
+}
+
+
+/***
+	Function to add a property of AF(a) oh the graph
+	input: graph, a and the property AF(a)
+
+	Search for nodes that has the property a 
+		and insert the property value on these nodes
+
+	Then search for nodes that have all the nexts nodes with the property value
+		and insert the property value on these nodes, recursively
+***/
+void opAF (vector<graphNode_t> &graph, string a, string value) {
+
+	for (int i = 0; i < (int)graph.size(); ++i) {
+		if (graph[i].nodes.count(a)) {
+			graph[i].nodes[value] = true;
+		}
+	}
+
+	bool hasChanged = true;
+	bool allNextHave;
+	while (hasChanged) {
+		hasChanged = false;
+		for (int i = 0; i < (int)graph.size(); ++i) {
+			if (!graph[i].nodes.count(value)) {
+				allNextHave = true;
+				for (int j = 0; j < (int)graph[i].next.size(); ++j) {
+					if (!graph[graph[i].next[j]].nodes.count(value)) {
+						allNextHave = false;
+						break;
+					}
+				}
+				if (allNextHave && graph[i].next.size() != 0) {
+					graph[i].nodes[value] = true;
+					hasChanged = true;
 				}
 			}
 		}
