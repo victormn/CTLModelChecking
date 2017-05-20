@@ -88,34 +88,34 @@ void printGraph (vector<graphNode_t> &graph) {
 }
 
 
-int main(int argc, char const *argv[]) {
+// int main(int argc, char const *argv[]) {
 
-	vector<graphNode_t> graph;
+// 	vector<graphNode_t> graph;
 
-	graph = readInput();
+// 	graph = readInput();
 
-	printGraph(graph);
+// 	printGraph(graph);
 
-	cout << "\n\n\n\n";
+// 	cout << "\n\n\n\n";
 
 
-	// opAdd(graph, "S");
-	// opAdd(graph, "C");
-	// opAdd(graph, "H");
-	// opAdd(graph, "E");
-	// opAnd(graph, "S", "E", "(S & E)");
-	// opAnd(graph, "S", "C", "(S & C)");
-	// opOr(graph, "S", "E", "(S | E)");
-	// opOr(graph, "S", "C", "(S | C)");
-	// opNot(graph, "S", "(!S)");
-	// opNot(graph, "(S & E)", "(!(S & E))");
-	// opEX(graph, "S", "(EX(S))");
-	// opEX(graph, "E", "(EX(E))");
-	// opEU(graph, "C", "H", "EU(C, H)");
-	// opEU(graph, "E", "S", "EU(E, S)");
-	// opAF(graph, "H", "AF(H)");
-	// opAF(graph, "C", "AF(C)");
-	printGraph(graph);
+// 	// opAdd(graph, "S");
+// 	// opAdd(graph, "C");
+// 	// opAdd(graph, "H");
+// 	// opAdd(graph, "E");
+// 	// opAnd(graph, "S", "E", "(S & E)");
+// 	// opAnd(graph, "S", "C", "(S & C)");
+// 	// opOr(graph, "S", "E", "(S | E)");
+// 	// opOr(graph, "S", "C", "(S | C)");
+// 	// opNot(graph, "S", "(!S)");
+// 	// opNot(graph, "(S & E)", "(!(S & E))");
+// 	// opEX(graph, "S", "(EX(S))");
+// 	// opEX(graph, "E", "(EX(E))");
+// 	// opEU(graph, "C", "H", "EU(C, H)");
+// 	// opEU(graph, "E", "S", "EU(E, S)");
+// 	// opAF(graph, "H", "AF(H)");
+// 	// opAF(graph, "C", "AF(C)");
+// 	printGraph(graph);
 
-	return 0;
-}
+// 	return 0;
+// }
