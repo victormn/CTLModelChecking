@@ -18,4 +18,4 @@ memorycheck: ./bin/modelchecking
 	valgrind ./bin/modelchecking
 
 run: ./bin/modelchecking
-	./bin/modelchecking ${IN}
+	./bin/modelchecking < ${IN}
