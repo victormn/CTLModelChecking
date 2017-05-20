@@ -99,7 +99,7 @@ void opEU (vector<graphNode_t> &graph, string a, string b, string value) {
 	while (hasChanged) {
 		hasChanged = false;
 		for (int i = 0; i < (int)graph.size(); ++i) {
-			if (graph[i].nodes.count(a) && !graph[i].nodes.count(value)) {
+			if ((graph[i].nodes.count(a) || a == "TRUE") && !graph[i].nodes.count(value)) {
 				for (int j = 0; j < (int)graph[i].next.size(); ++j) {
 					if (graph[graph[i].next[j]].nodes.count(value)) {
 						graph[i].nodes[value] = true;
