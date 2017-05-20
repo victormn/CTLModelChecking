@@ -71,6 +71,9 @@ int main(){
 	callOperation(ctlNode, statemachine);
 	printResult(statemachine, ctlNode->content ,expression);
 
+	// printGraph(statemachine);
+	// printTree(ctlNode);
+
 	/*	TREE TEST
 
 	treeNode_t *node = (treeNode_t*) malloc (sizeof(treeNode_t));
