@@ -21,7 +21,7 @@ vector<graphNode_t> readStateMachine() {
 	while(N--) {
 		cin >> g.id;
 
-		if (g.id > v.size()) {
+		if (g.id > (int)v.size()) {
 			cout << "Malformed state machine!\n";
 			exit (EXIT_FAILURE);
 		}
@@ -36,7 +36,7 @@ vector<graphNode_t> readStateMachine() {
 		while (quant--) {
 			cin >> state;
 
-			if (state > v.size()) {
+			if (state > (int)v.size()) {
 				cout << "Malformed state machine!\n";
 				exit (EXIT_FAILURE);
 			}

@@ -33,7 +33,7 @@ int main(){
 	ctlTree = parserCtlExpression(expression);
 
 	callOperation(ctlTree, smGraphy);
-	printResult(smGraphy, ctlTree->content ,expression);
+	printResult(smGraphy, ctlTree->content, expression);
 
 	cleanTree(ctlTree);
 

@@ -6,16 +6,13 @@ all: classes
 
 classes:
 	@mkdir -p obj bin
-	@g++ -c ./src/parserExpression.cpp $(CFLAGS) -o ./obj/parserExpression.o
-	@g++ -c ./src/parserStateMachine.cpp $(CFLAGS) -o ./obj/parserStateMachine.o
-	@g++ -c ./src/operationCaller.cpp $(CFLAGS) -o ./obj/operationCaller.o
+	@g++ -c ./src/parserExpression.cpp $(CFLAGS) -o ./obj/parserExpression.o -Wall
+	@g++ -c ./src/parserStateMachine.cpp $(CFLAGS) -o ./obj/parserStateMachine.o -Wall
+	@g++ -c ./src/operationCaller.cpp $(CFLAGS) -o ./obj/operationCaller.o -Wall
 
 clean:
 	@rm -rf bin obj
 	@find -name "*~" | xargs rm -rf
-
-memorycheck: ./bin/modelchecking
-	valgrind ./bin/modelchecking < ${IN}
 
 run: ./bin/modelchecking
 	./bin/modelchecking < ${IN}
