@@ -3,6 +3,10 @@
 
 using namespace std;
 
+/***
+	Function to get the property from given expression
+	input: expression, property position
+***/
 string getProp(string expression, int pos) {
 	string result = "(";
 	int level = 1;
@@ -14,6 +18,10 @@ string getProp(string expression, int pos) {
 	return result;
 }
 
+/***
+	Function to get the current function from given expression
+	input: expression, function position
+***/
 string getFunction(string expression, int pos){
 	string result = "";
 	while(expression[pos] != '('){
@@ -23,6 +31,10 @@ string getFunction(string expression, int pos){
 	return result;
 }
 
+/***
+	Function to verify if the current expression is a function (TRUE) or a property (FALSE)
+	input: expression, position to verify
+***/
 bool isFunction(string expression, int pos) {
 	while(expression[pos] != '('){
 		if (expression[pos] == ')') 
@@ -32,6 +44,11 @@ bool isFunction(string expression, int pos) {
 	return true;
 }
 
+/***
+	Function to get the function position from given expression. Return (-1) if the expression 
+	is a property
+	input: expression
+***/
 int findFunction(string expression){
 	int level = 0;
 	for (int i = 0; i < (int)expression.length(); ++i) {
@@ -42,6 +59,10 @@ int findFunction(string expression){
 	return -1;
 }
 
+/***
+	Function to transform AX(p) into !EX(!p)
+	input: p
+***/
 string ax2ex(string p){
 	string result = "(!(EX(!";
 	result += p;
@@ -49,6 +70,10 @@ string ax2ex(string p){
 	return result;
 }
 
+/***
+	Function to transform EF(p) into EU(TRUE, p)
+	input: p
+***/
 string ef2eu(string p){
 	string result = "(EU((TRUE),";
 	result += p;
@@ -56,6 +81,10 @@ string ef2eu(string p){
 	return result;
 }
 
+/***
+	Function to transform AG(p) into !EU(TRUE, !p)
+	input: p
+***/
 string ag2eu(string p){
 	string result = "(!(EU((TRUE),(!";
 	result += p;
@@ -63,6 +92,10 @@ string ag2eu(string p){
 	return result;
 }
 
+/***
+	Function to transform EG(p) into !AF(!p)
+	input: p
+***/
 string eg2af(string p){
 	string result = "(!(AF(!";
 	result += p;
@@ -70,6 +103,10 @@ string eg2af(string p){
 	return result;
 }
 
+/***
+	Function to transform AU(p, q) into AF(q) & !EU(q, !q & !p)
+	input: p, q
+***/
 string au2afeu(string left, string right){
 	string result = "((AF";
 	result += right;
@@ -83,6 +120,10 @@ string au2afeu(string left, string right){
 	return result;
 }
 
+/***
+	Function to transform p->q into !p | q
+	input: p, q
+***/
 string impl2or(string left, string right){
 	string result = "((!";
 	result += left;
@@ -92,6 +133,10 @@ string impl2or(string left, string right){
 	return result;
 }
 
+/***
+	Function to transform p<->q into (!p | q) & (!q | p)
+	input: p, q
+***/
 string if2and(string left, string right){
 	string result = "(((!";
 	result += left;
@@ -105,6 +150,10 @@ string if2and(string left, string right){
 	return result;
 }
 
+/***
+	Function to transform (p) into p (without parenthesis)
+	input: p
+***/
 string removeParenthesisInLeaf(string leaf){
 	string result = "";
 	for(int i = 1; i < (int)leaf.length()-1; ++i){
@@ -113,9 +162,23 @@ string removeParenthesisInLeaf(string leaf){
 	return result;
 }
 
+/***
+	Function to free the allocated tree
+	input: tree
+***/
+void cleanTree(treeNode_t *node){
+	if(node == NULL) return;
+	cleanTree(node->left);
+	cleanTree(node->right);
+	delete node;
+}
+
+/***
+	Function to parse the CTL expression into a tree
+	input: expression
+***/
 treeNode_t* parserCtlExpression(string expression) {
 	string left, right;
-
 	treeNode_t *node = new treeNode_t();
 	
 	int posFunc = findFunction(expression);
@@ -258,7 +321,7 @@ treeNode_t* parserCtlExpression(string expression) {
 	}
 	else {
 		cout << "Invalid function: " << function << "\n";
-		return NULL;
+		exit (EXIT_FAILURE);
 	}
 
 	return node;

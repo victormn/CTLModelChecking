@@ -1,53 +1,17 @@
 #include <parserExpression.h>
-#include <parserSM.h>
+#include <parserStateMachine.h>
 #include <operationCaller.h>
 
 using namespace std;
 
 /***
-	Function to print the expression tree
-	input: expression tree
+	Function to print the result of the expression applied in the state machine
+	input: state machine, expression modified, original expression
 ***/
-void printTree(treeNode_t *node){
-	if(node == NULL) return;
-	cout << node->content << " " << node->op << "\n";
-	printTree(node->left);
-	printTree(node->right);
-}
-
-/***
-	Function to print the state machine
-	input: state machine
-***/
-void printGraph (vector<graphNode_t> &graph) {
-
-	for (int i = 0; i < (int)graph.size(); ++i) {
-		cout << graph[i].id << '\n';
-/*
-		cout << "Properties: \n";
-		for (map<string, bool>::iterator it = graph[i].properties.begin(); it != graph[i].properties.end(); ++it) {
-			cout << it->first << " ";
-		}
-		cout << "\n";
-
-		cout << "States: \n";
-		for (int j = 0; j < (int)graph[i].next.size(); ++j) {
-			cout << graph[i].next[j]+1 << " ";
-		}
-		cout << "\n";*/
-
-		cout << "Nodes: \n";
-		for (map<string, bool>::iterator it = graph[i].nodes.begin(); it != graph[i].nodes.end(); ++it) {
-			cout << it->first << " ";
-		}
-		cout << "\n\n";
-	}
-}
-
 void printResult(vector<graphNode_t> &graph, string expression, string initialExpression){
 	
 	cout << "Expression: " << initialExpression << "\n";
-	cout << "State Machine: ";
+	cout << "States: ";
 
 	for (int i = 0; i < (int)graph.size(); ++i) {
 		if(graph[i].nodes.count(expression)){
@@ -59,59 +23,19 @@ void printResult(vector<graphNode_t> &graph, string expression, string initialEx
 
 int main(){
 
-	vector<graphNode_t> statemachine;
-	treeNode_t *ctlNode = new treeNode_t();
+	vector<graphNode_t> smGraphy;
+	treeNode_t *ctlTree;
 
-	statemachine = readSM();
+	smGraphy = readStateMachine();
 
 	string expression;
 	cin >> expression;
-	ctlNode = parserCtlExpression(expression);
+	ctlTree = parserCtlExpression(expression);
 
-	callOperation(ctlNode, statemachine);
-	printResult(statemachine, ctlNode->content ,expression);
+	callOperation(ctlTree, smGraphy);
+	printResult(smGraphy, ctlTree->content ,expression);
 
-	// printGraph(statemachine);
-	// printTree(ctlNode);
-
-	/*	TREE TEST
-
-	treeNode_t *node = (treeNode_t*) malloc (sizeof(treeNode_t));
-	node = parserCtlExpression("(AX(!(((a)|(b))&((c)&(d)))))");
-
-	if(node != NULL) {
-		printTree(node);
-	}*/
-
-	// --------------------------------------------------------------
-
-	/*	GRAPH TEST
-
-	vector<graphNode_t> graph;
-
-	graph = readSM();
-
-
-	cout << "\n\n\n\n";
-
-	// opAdd(graph, "S");
-	// opAdd(graph, "C");
-	// opAdd(graph, "H");
-	// opAdd(graph, "E");
-	// opAnd(graph, "S", "E", "(S & E)");
-	// opAnd(graph, "S", "C", "(S & C)");
-	// opOr(graph, "S", "E", "(S | E)");
-	// opOr(graph, "S", "C", "(S | C)");
-	// opNot(graph, "S", "(!S)");
-	// opNot(graph, "(S & E)", "(!(S & E))");
-	// opEX(graph, "S", "(EX(S))");
-	// opEX(graph, "E", "(EX(E))");
-	// opEU(graph, "C", "H", "EU(C, H)");
-	// opEU(graph, "E", "S", "EU(E, S)");
-	// opAF(graph, "H", "AF(H)");
-	// opAF(graph, "C", "AF(C)");
-	printGraph(graph);
-	*/
+	cleanTree(ctlTree);
 
 	return 0;
 }

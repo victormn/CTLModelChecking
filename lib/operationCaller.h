@@ -7,7 +7,7 @@
 #include <stack>
 
 #include <parserExpression.h>
-#include <parserSM.h>
+#include <parserStateMachine.h>
 
 using namespace std;
 

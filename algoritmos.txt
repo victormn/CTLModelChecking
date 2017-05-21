@@ -1,9 +1,0 @@
-EX(Q) -> verificar quais nós da lista de adjacência possuem o "node" Q (não procurar o "node" na lista de propriedade) 
-
-AF(Q) -> marcar os nós do grafo que possuem a propriedade Q e todos os outros que apontam para estes nós 
-       1. verificar se o nó do grafo possui a propriedade Q
-       2. analisar a lista de adjacência de todos os nós do grafo procurando por nós que apontam para os nós já marcados (onde AF(Q) já é válido)
-
-EU(P,Q^R) -> marcar todos os nós do grafo que possuem Q^R como EU (propriedade válida)
-          -> procurar todos os nós do grafo que possuem P e que apontam para um nó em que EU é válido
-          

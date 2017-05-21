@@ -7,6 +7,9 @@
 
 using namespace std;
 
+/***
+	Struct of the expression tree's nodes
+***/
 typedef struct treeNode_s {
 	string content;
 	string type;
@@ -16,5 +19,6 @@ typedef struct treeNode_s {
 } treeNode_t;
 
 treeNode_t* parserCtlExpression(string content);
+void cleanTree(treeNode_t *node);
 
 #endif

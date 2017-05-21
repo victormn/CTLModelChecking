@@ -153,6 +153,10 @@ void opAF (vector<graphNode_t> &graph, string a, string value) {
 	}
 }
 
+/***
+	Function to call the right operation for given expression
+	input: expression tree, state machine
+***/
 void callOperation(treeNode_t *node, vector<graphNode_t> &graph){
 
 	stack<treeNode_t*> origNodes;

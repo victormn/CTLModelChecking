@@ -20,6 +20,6 @@ typedef struct graphNode_s {
 	map<string, bool> nodes;
 } graphNode_t;
 
-vector<graphNode_t> readSM();
+vector<graphNode_t> readStateMachine();
 
 #endif

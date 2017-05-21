@@ -1,4 +1,4 @@
-#include <parserSM.h>
+#include <parserStateMachine.h>
 
 using namespace std;
 
@@ -6,7 +6,7 @@ using namespace std;
 	Function to read the input
 	output: the state machine
 ***/
-vector<graphNode_t> readSM() {
+vector<graphNode_t> readStateMachine() {
 
 	graphNode_t g;
 	vector<graphNode_t> v;
@@ -14,7 +14,6 @@ vector<graphNode_t> readSM() {
 	int quant;
 	string prop;
 	int state;
-	graphNode_t node;
 
 	cin >> N;
 	v.resize(N);
@@ -24,7 +23,7 @@ vector<graphNode_t> readSM() {
 
 		if (g.id > v.size()) {
 			cout << "Malformed state machine!\n";
-			exit(-1);
+			exit (EXIT_FAILURE);
 		}
 		cin >> quant;
 
@@ -39,7 +38,7 @@ vector<graphNode_t> readSM() {
 
 			if (state > v.size()) {
 				cout << "Malformed state machine!\n";
-				exit(-1);
+				exit (EXIT_FAILURE);
 			}
 
 			g.next.push_back(state - 1);
