@@ -111,7 +111,7 @@ string au2afeu(string left, string right){
 	string result = "((AF";
 	result += right;
 	result += ")&(!(EU((!"; 
-	result += left;
+	result += right;
 	result += "),((!"; 	
 	result += left;
 	result += ")&(!"; 	

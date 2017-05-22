@@ -31,6 +31,7 @@ vector<graphNode_t> readStateMachine() {
 			cin >> prop;
 			g.properties[prop] = true;
 		}
+		g.properties["TRUE"] = true;
 		cin >> quant;
 
 		while (quant--) {
