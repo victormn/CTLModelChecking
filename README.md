@@ -42,3 +42,7 @@ Where
 	4. Total upcoming **totProxEstad** states (integer type)
 	5. Sequence of **totProxEstad** valid identifiers of the next states, separated by space
 3. The last line should include the CTL expression to be verified.
+
+## Output:
+
+The output of the program are the CTL expression and the states of the state machine in which the expression is valid.
